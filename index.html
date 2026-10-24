@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101411">
+  <title>LachsAI</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div class="logo">L<span>A</span></div>
+      <div><h1>LachsAI</h1><p>Dein Coding-Assistent</p></div>
+      <span class="status">STARTER</span>
+    </header>
+    <section class="hero">
+      <p class="eyebrow">MINECRAFT · JAVA · ANDROID</p>
+      <h2>Was möchtest du bauen?</h2>
+      <p>Plane Mods und Apps, sammle Anforderungen und bereite Build-Projekte vor.</p>
+    </section>
+    <section class="panel">
+      <label for="projectType">Projekttyp</label>
+      <select id="projectType">
+        <option value="fabric">Minecraft Fabric Mod (JAR)</option>
+        <option value="android">Android-App (APK)</option>
+        <option value="web">Web-App</option>
+      </select>
+      <label for="prompt">Deine Aufgabe</label>
+      <textarea id="prompt" rows="4" placeholder="Beschreibe, was LachsAI vorbereiten soll …"></textarea>
+      <button id="send">Anfrage vorbereiten</button>
+      <p class="note">Demo-Modus: Noch kein KI-Backend verbunden. Deine Anfrage wird nicht an eine KI gesendet.</p>
+    </section>
+    <section class="panel response" aria-live="polite">
+      <h3>Antwort / nächste Schritte</h3>
+      <div id="output">Wähle einen Projekttyp und beschreibe dein Vorhaben.</div>
+    </section>
+    <footer> LachsAI · Open starter · Kein API-Schlüssel im Browser speichern </footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
