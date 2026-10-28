@@ -23,7 +23,7 @@ async function loadLocalAI() {
 
   generator = await pipeline(
     "text-generation",
-    "onnx-community/Qwen2.5-Coder-0.5B-Instruct",
+    "onnx-community/Qwen2.5-0.5B-Instruct",
     { dtype: "q4" }
   );
 
