@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LachsClient 1.0.9 // Minecraft 26.2 PvP Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #09070d;
+            --bg-panel: #120d1c;
+            --bg-panel-alt: #1a1229;
+            --purple-primary: #a855f7;
+            --purple-bright: #c084fc;
+            --purple-dark: #7e22ce;
+            --purple-deep: #3b0764;
+            --gold: #facc15;
+            --green: #22c55e;
+            --red: #ef4444;
+            --text-light: #f3e8ff;
+            --text-dim: #b892ff;
+            --border-hard: 3px solid #000000;
+            --shadow-hard: 5px 5px 0px #000000;
+            --shadow-hover: 7px 7px 0px #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border-radius: 0px !important;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            font-family: 'Silkscreen', 'Courier New', monospace;
+            line-height: 1.5;
+            background-image:
+                linear-gradient(to right, rgba(168, 85, 247, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(168, 85, 247, 0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: #0d0914;
+            border-bottom: 4px solid #000;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 0 #000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            background: var(--purple-primary);
+            border: var(--border-hard);
+            box-shadow: 3px 3px 0 #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .brand-title span {
+            color: var(--purple-bright);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 10px;
+            background: var(--bg-panel);
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0 #000;
+        }
+
+        .nav-links a:hover {
+            background: var(--purple-primary);
+            color: #000;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--purple-primary);
+            color: #fff;
+            border: var(--border-hard);
+            box-shadow: var(--shadow-hard);
+            padding: 14px 22px;
+            font-family: 'Silkscreen', 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            text-shadow: 2px 2px 0 #000;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .btn:hover {
+            background: var(--purple-bright);
+            color: #000;
+            text-shadow: none;
+        }
+
+        .btn:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: #000;
+            text-shadow: none;
+        }
+
+        .btn-green:hover {
+            background: #4ade80;
+            color: #000;
+        }
+
+        .btn-dark {
+            background: var(--bg-panel);
+            color: var(--text-light);
+        }
+
+        .hero {
+            padding: 50px 0 40px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .tag-mc {
+            display: inline-block;
+            background: var(--purple-dark);
+            color: #fff;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0 #000;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            text-shadow: 4px 4px 0 #000;
+        }
+
+        .hero h1 span {
+            color: var(--purple-bright);
+        }
+
+        .hero p {
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            color: var(--text-dim);
+            margin-bottom: 24px;
+            line-height: 1.35;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .hero-card {
+            background: var(--bg-panel);
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 18px;
+        }
+
+        .window-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #09070d;
+            border: 2px solid #000;
+            padding: 8px 12px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .win-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .win-btns span {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #000;
+            display: inline-block;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .stat-box {
+            background: #09070d;
+            border: 2px solid #000;
+            padding: 12px;
+        }
+
+        .stat-box .label {
+            font-size: 10px;
+            color: var(--text-dim);
+        }
+
+        .stat-box .val {
+            font-size: 18px;
+            color: var(--purple-bright);
+            margin-top: 4px;
+        }
+
+        section {
+            padding: 40px 0;
+        }
+
+        .sec-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 22px;
+            border-bottom: 3px solid #000;
+            padding-bottom: 12px;
+        }
+
+        .sec-title {
+            font-size: 22px;
+            text-shadow: 3px 3px 0 #000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sec-title::before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 22px;
+            background: var(--purple-primary);
+            border: 2px solid #000;
+        }
+
+        /* LIVE INGAME SIMULATOR */
+        .sim-layout {
+            display: grid;
+            grid-template-columns: 1.45fr 0.85fr;
+            gap: 22px;
+        }
+
+        .canvas-frame {
+            background: #050308;
+            border: 4px solid #000;
+            box-shadow: var(--shadow-hard);
+            position: relative;
+        }
+
+        #hudCanvas {
+            display: block;
+            width: 100%;
+            height: 360px;
+            cursor: grab;
+            touch-action: none;
+        }
+
+        #hudCanvas:active {
+            cursor: grabbing;
+        }
+
+        .controls-panel {
+            background: var(--bg-panel);
+            border: 4px solid #000;
+            box-shadow: var(--shadow-hard);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ctrl-group {
+            background: #09070d;
+            border: 2px solid #000;
+            padding: 12px;
+        }
+
+        .ctrl-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--purple-primary);
+            cursor: pointer;
+        }
+
+        .toggle-btn {
+            width: 100%;
+            padding: 10px 12px;
+            font-family: 'Silkscreen', 'Courier New', monospace;
+            font-size: 12px;
+            border: 2px solid #000;
+            background: #1a1229;
+            color: var(--text-dim);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-btn.active {
+            background: var(--purple-dark);
+            color: #fff;
+        }
+
+        .toggle-btn span.status {
+            padding: 2px 6px;
+            background: #000;
+            font-size: 11px;
+        }
+
+        .toggle-btn.active span.status {
+            color: var(--green);
+        }
+
+        /* FLAPPY LACHS */
+        .flappy-panel {
+            background: var(--bg-panel);
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 18px;
+        }
+
+        .flappy-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 14px;
+            background: #09070d;
+            border: 2px solid #000;
+            padding: 10px 14px;
+        }
+
+        #flappyCanvas {
+            display: block;
+            width: 100%;
+            height: 380px;
+            background: #06040a;
+            border: 4px solid #000;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .flappy-footer {
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #09070d;
+            border: 2px solid #000;
+            padding: 6px 10px;
+            font-size: 11px;
+            color: #6b5b8c;
+        }
+
+        .badge.unlocked {
+            background: var(--purple-deep);
+            border-color: var(--purple-bright);
+            color: var(--gold);
+            box-shadow: 3px 3px 0 #000;
+        }
+
+        /* MODULES GRID */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+        }
+
+        .mod-card {
+            background: var(--bg-panel);
+            border: 3px solid #000;
+            box-shadow: var(--shadow-hard);
+            padding: 18px;
+        }
+
+        .mod-class {
+            font-family: 'VT323', monospace;
+            font-size: 17px;
+            color: var(--purple-bright);
+            margin-bottom: 6px;
+        }
+
+        .mod-card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .mod-card p {
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: var(--text-dim);
+            line-height: 1.3;
+        }
+
+        /* DOWNLOAD BOX */
+        .download-box {
+            background: var(--bg-panel);
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 32px 22px;
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .jar-meta {
+            display: inline-block;
+            background: #09070d;
+            border: 2px solid #000;
+            padding: 10px 16px;
+            margin: 16px 0 24px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: var(--purple-bright);
+        }
+
+        footer {
+            margin-top: 50px;
+            border-top: 4px solid #000;
+            background: #0d0914;
+            padding: 26px 18px;
+            text-align: center;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 860px) {
+            .hero, .sim-layout {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="brand">
+        <div class="brand-logo">
+            <svg width="28" height="28" viewBox="0 0 16 16" shape-rendering="crispEdges">
+                <rect x="3" y="1" width="10" height="14" fill="#3b0764"/>
+                <rect x="2" y="2" width="12" height="11" fill="#7e22ce"/>
+                <rect x="4" y="3" width="8" height="9" fill="#c084fc"/>
+                <rect x="5" y="6" width="6" height="3" fill="#facc15"/>
+                <rect x="9" y="6" width="1" height="1" fill="#000"/>
+            </svg>
+        </div>
+        <div class="brand-title">LACHS<span>CLIENT</span></div>
+    </a>
+    <nav class="nav-links">
+        <a href="#simulator">[HUD-SIM]</a>
+        <a href="#flappy">[FLAPPY-LACHS]</a>
+        <a href="#modules">[MODULE]</a>
+        <a href="#download">[DOWNLOAD .JAR]</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <div>
+            <div class="tag-mc">FABRIC MOD // MINECRAFT 26.2 // v1.0.9</div>
+            <h1>DER LILA <span>PVP CLIENT</span> OHNE SCHNICKSCHNACK</h1>
+            <p>
+                Gebaut für <strong>Minecraft 26.2</strong>: Mit <code>GameRendererSaturationMixin</code>, <code>EntityBoxRenderer</code>, <code>FastPlaceRuntime</code> und dem einzigartigen runden <strong>Lachsgiraffe-Schild</strong>.
+            </p>
+            <div class="hero-actions">
+                <a href="Lachsclient-1.0.9.jar" download="Lachsclient-1.0.9.jar" class="btn btn-green">⬇ DOWNLOAD Lachsclient-1.0.9.jar</a>
+                <a href="#flappy" class="btn btn-dark">▶ FLAPPY LACHS SPIELEN</a>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <div class="window-bar">
+                <span>de.comdn.lachsclient // BUILD INFO</span>
+                <div class="win-btns">
+                    <span style="background:#ef4444"></span>
+                    <span style="background:#facc15"></span>
+                    <span style="background:#22c55e"></span>
+                </div>
+            </div>
+            <div style="background:#09070d; border:2px solid #000; padding:14px; font-family:'VT323',monospace; font-size:20px; color:#d8b4fe;">
+                <div>&gt; Mod-ID: <span style="color:#fff">lachsclient</span></div>
+                <div>&gt; Version: <span style="color:#facc15">1.0.9</span></div>
+                <div>&gt; Target: <span style="color:#22c55e">Minecraft 26.2 (Fabric)</span></div>
+                <div>&gt; Mixins: <span style="color:#c084fc">GameRendererSaturation, ShieldSpecialRenderer</span></div>
+                <div>&gt; Cosmetic: <span style="color:#c084fc">round_lachsgiraffe_shield.bbmodel</span></div>
+            </div>
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="label">SATURATION RANGE</div>
+                    <div class="val">100% - 200%</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">FASTPLACE DELAY</div>
+                    <div class="val">0 TICKS</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="simulator">
+        <div class="sec-header">
+            <h2 class="sec-title">LIVE IN-GAME HUD & MOD SIMULATOR</h2>
+            <span style="font-size:12px; color:var(--text-dim);">ZIEHE DAS HUD-WIDGET MIT FINGER ODER MAUS!</span>
+        </div>
+
+        <div class="sim-layout">
+            <div class="canvas-frame" id="hudFrame">
+                <canvas id="hudCanvas" width="720" height="360"></canvas>
+            </div>
+
+            <div class="controls-panel">
+                <div class="ctrl-group">
+                    <label for="satRange">
+                        <span>SATURATION MIXIN</span>
+                        <span id="satLabel" style="color:var(--purple-bright);">160%</span>
+                    </label>
+                    <input type="range" id="satRange" min="100" max="200" step="10" value="160">
+                </div>
+
+                <button type="button" class="toggle-btn active" id="btnHitbox">
+                    <span>ENTITY BOX RENDERER</span>
+                    <span class="status">AN</span>
+                </button>
+
+                <button type="button" class="toggle-btn active" id="btnShield">
+                    <span>ROUND LACHSGIRAFFE SHIELD</span>
+                    <span class="status">AN</span>
+                </button>
+
+                <button type="button" class="toggle-btn active" id="btnFastplace">
+                    <span>FASTPLACE RUNTIME</span>
+                    <span class="status">AN</span>
+                </button>
+
+                <button type="button" class="btn btn-dark" style="width:100%; font-size:12px; padding:10px;" id="btnSpawnBlock">
+                    + BLOCK PLATZIEREN TESTEN
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="flappy">
+        <div class="sec-header">
+            <h2 class="sec-title">FLAPPY_LACHS.EXE // MINIGAME</h2>
+            <span style="font-size:12px; color:var(--gold);">HIGHSCORE: <span id="highScoreDisplay">0</span></span>
+        </div>
+
+        <div class="flappy-panel">
+            <div class="flappy-topbar">
+                <div style="font-size:13px;">SCORE: <span id="scoreDisplay" style="color:var(--purple-bright);">0</span></div>
+                <div style="display:flex; gap:10px;">
+                    <button type="button" class="btn" style="padding:10px 16px; font-size:12px;" id="btnFlap">▲ FLAP</button>
+                    <button type="button" class="btn btn-dark" style="padding:10px 16px; font-size:12px;" id="btnReset">↻ RESET</button>
+                </div>
+            </div>
+
+            <canvas id="flappyCanvas" width="900" height="380"></canvas>
+
+            <div class="flappy-footer">
+                <div class="badges">
+                    <div class="badge" id="b5">[5 PTS] NOVICE_FLYER</div>
+                    <div class="badge" id="b10">[10 PTS] LACHSGIRAFFE_KRONE</div>
+                    <div class="badge" id="b20">[20 PTS] GODBRIDGE_PRO</div>
+                </div>
+                <div style="font-family:'VT323',monospace; font-size:20px; color:var(--text-dim);">
+                    Steuerung: TIPPEN / KLICK / ▲ FLAP / LEERTASTE
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="modules">
+        <div class="sec-header">
+            <h2 class="sec-title">ENTHALTENE KLASSEN & MIXINS</h2>
+        </div>
+
+        <div class="modules-grid">
+            <div class="mod-card">
+                <div class="mod-class">GameRendererSaturationMixin.class</div>
+                <h3>Saturation Shader</h3>
+                <p>Post-Processing-Shader (<code>saturation.fsh</code>) von 100% bis 200% in 10er-Schritten für maximale Sichtbarkeit im PvP.</p>
+            </div>
+            <div class="mod-card">
+                <div class="mod-class">RoundShieldModel.class</div>
+                <h3>Lachsgiraffe Shield</h3>
+                <p>Custom Blockbench-Modell (<code>round_lachsgiraffe_shield.bbmodel</code>) mit eigener 64x64 Textur statt Vanilla-Schild.</p>
+            </div>
+            <div class="mod-card">
+                <div class="mod-class">EntityBoxRenderer.class</div>
+                <h3>3D Entity Hitboxen</h3>
+                <p>Zeichnet präzise lila Hitbox-Rahmen um Spieler und Entities in Minecraft 26.2.</p>
+            </div>
+            <div class="mod-card">
+                <div class="mod-class">FastPlaceRuntime.class</div>
+                <h3>FastPlace & HUD Editor</h3>
+                <p>Kein Rechtsklick-Cooldown beim Brückenbauen sowie frei verschiebbare Widgets im <code>HudEditorScreen</code>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="download">
+        <div class="download-box">
+            <h2 style="font-size:24px; text-shadow:3px 3px 0 #000;">LACHSCLIENT 1.0.9 HERUNTERLADEN</h2>
+            <p style="font-family:'VT323',monospace; font-size:22px; color:var(--text-dim); margin-top:10px;">
+                Schiebe die Datei nach dem Download einfach in deinen <code>.minecraft/mods</code> Ordner (Fabric 26.2).
+            </p>
+            <div class="jar-meta">
+                DATEI: Lachsclient-1.0.9.jar // FABRIC 26.2 // DIREKTER DOWNLOAD
+            </div>
+            <div>
+                <a href="Lachsclient-1.0.9.jar" download="Lachsclient-1.0.9.jar" class="btn btn-green" style="font-size:16px; padding:18px 30px;" id="mainDlBtn">
+                    ⬇ JETZT DOWNLOADEN (Lachsclient-1.0.9.jar)
+                </a>
+            </div>
+            <div id="dlStatus" style="margin-top:14px; font-family:'VT323',monospace; font-size:20px; color:var(--green);"></div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div>LACHSCLIENT v1.0.9 // MINECRAFT 26.2 // de.comdn.lachsclient</div>
+    <div style="font-size:16px; margin-top:4px; color:#7c689e;">Not affiliated with Mojang AB or Microsoft.</div>
+</footer>
+
+<script>
+window.addEventListener('DOMContentLoaded', function () {
+    var memStore = {};
+    function safeGet(key, fallback) {
+        try {
+            var v = window.localStorage.getItem(key);
+            return v !== null ? v : fallback;
+        } catch (e) {
+            return memStore[key] !== undefined ? memStore[key] : fallback;
+        }
+    }
+    function safeSet(key, val) {
+        memStore[key] = String(val);
+        try {
+            window.localStorage.setItem(key, String(val));
+        } catch (e) {}
+    }
+
+    // ==========================================
+    // 1. LIVE IN-GAME HUD & MOD SIMULATOR
+    // ==========================================
+    var hudCanvas = document.getElementById('hudCanvas');
+    var hudFrame = document.getElementById('hudFrame');
+    var hCtx = hudCanvas.getContext('2d');
+
+    var simState = {
+        saturation: 160,
+        hitbox: true,
+        shield: true,
+        fastplace: true,
+        hudX: 24,
+        hudY: 24,
+        dragging: false,
+        dragOffX: 0,
+        dragOffY: 0,
+        blocks: [
+            { x: 430, y: 265 },
+            { x: 470, y: 265 },
+            { x: 510, y: 265 }
+        ],
+        tick: 0
+    };
+
+    var satRange = document.getElementById('satRange');
+    var satLabel = document.getElementById('satLabel');
+
+    function updateSaturationDisplay() {
+        simState.saturation = parseInt(satRange.value, 10) || 100;
+        satLabel.textContent = simState.saturation + '%';
+        hudFrame.style.filter = 'saturate(' + simState.saturation + '%)';
+    }
+    satRange.addEventListener('input', updateSaturationDisplay);
+    satRange.addEventListener('change', updateSaturationDisplay);
+    updateSaturationDisplay();
+
+    function bindToggle(btnId, key) {
+        var btn = document.getElementById(btnId);
+        btn.addEventListener('click', function () {
+            simState[key] = !simState[key];
+            if (simState[key]) {
+                btn.classList.add('active');
+                btn.querySelector('.status').textContent = 'AN';
+            } else {
+                btn.classList.remove('active');
+                btn.querySelector('.status').textContent = 'AUS';
+            }
+        });
+    }
+    bindToggle('btnHitbox', 'hitbox');
+    bindToggle('btnShield', 'shield');
+    bindToggle('btnFastplace', 'fastplace');
+
+    function spawnFastBlock() {
+        var last = simState.blocks[simState.blocks.length - 1] || { x: 390, y: 265 };
+        var nextX = last.x + 40;
+        if (nextX > 650) {
+            simState.blocks = [{ x: 430, y: 265 }];
+        } else {
+            simState.blocks.push({ x: nextX, y: 265 });
+        }
+    }
+    document.getElementById('btnSpawnBlock').addEventListener('click', spawnFastBlock);
+
+    function getCanvasCoords(canvas, clientX, clientY) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: (clientX - rect.left) * (canvas.width / rect.width),
+            y: (clientY - rect.top) * (canvas.height / rect.height)
+        };
+    }
+
+    function startHudDrag(clientX, clientY) {
+        var pos = getCanvasCoords(hudCanvas, clientX, clientY);
+        if (pos.x >= simState.hudX - 10 && pos.x <= simState.hudX + 225 &&
+            pos.y >= simState.hudY - 10 && pos.y <= simState.hudY + 125) {
+            simState.dragging = true;
+            simState.dragOffX = pos.x - simState.hudX;
+            simState.dragOffY = pos.y - simState.hudY;
+            return true;
+        }
+        return false;
+    }
+
+    function moveHudDrag(clientX, clientY) {
+        if (!simState.dragging) return;
+        var pos = getCanvasCoords(hudCanvas, clientX, clientY);
+        simState.hudX = Math.max(8, Math.min(hudCanvas.width - 223, pos.x - simState.dragOffX));
+        simState.hudY = Math.max(8, Math.min(hudCanvas.height - 123, pos.y - simState.dragOffY));
+    }
+
+    hudCanvas.addEventListener('mousedown', function (e) {
+        startHudDrag(e.clientX, e.clientY);
+    });
+    window.addEventListener('mousemove', function (e) {
+        moveHudDrag(e.clientX, e.clientY);
+    });
+    window.addEventListener('mouseup', function () {
+        simState.dragging = false;
+    });
+
+    hudCanvas.addEventListener('touchstart', function (e) {
+        if (e.touches && e.touches.length > 0) {
+            if (startHudDrag(e.touches[0].clientX, e.touches[0].clientY)) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+
+    hudCanvas.addEventListener('touchmove', function (e) {
+        if (simState.dragging && e.touches && e.touches.length > 0) {
+            moveHudDrag(e.touches[0].clientX, e.touches[0].clientY);
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    hudCanvas.addEventListener('touchend', function () {
+        simState.dragging = false;
+    });
+
+    function renderHudSim() {
+        simState.tick++;
+
+        var skyGrad = hCtx.createLinearGradient(0, 0, 0, hudCanvas.height);
+        skyGrad.addColorStop(0, '#1e1035');
+        skyGrad.addColorStop(0.7, '#3b1c63');
+        skyGrad.addColorStop(1, '#120822');
+        hCtx.fillStyle = skyGrad;
+        hCtx.fillRect(0, 0, hudCanvas.width, hudCanvas.height);
+
+        hCtx.fillStyle = 'rgba(243, 232, 255, 0.35)';
+        for (var i = 0; i < 14; i++) {
+            var sx = (i * 57 + Math.floor(simState.tick * 0.2)) % hudCanvas.width;
+            var sy = (i * 29) % 180 + 15;
+            hCtx.fillRect(sx, sy, 4, 4);
+        }
+
+        for (var x = 0; x < hudCanvas.width; x += 40) {
+            hCtx.fillStyle = '#581c87';
+            hCtx.fillRect(x, 305, 40, 14);
+            hCtx.fillStyle = '#2e1065';
+            hCtx.fillRect(x, 319, 40, 41);
+            hCtx.strokeStyle = '#000';
+            hCtx.lineWidth = 2;
+            hCtx.strokeRect(x, 305, 40, 55);
+        }
+
+        if (simState.fastplace) {
+            if (simState.tick % 45 === 0) spawnFastBlock();
+            for (var bIdx = 0; bIdx < simState.blocks.length; bIdx++) {
+                var b = simState.blocks[bIdx];
+                hCtx.fillStyle = '#a855f7';
+                hCtx.fillRect(b.x, b.y, 40, 40);
+                hCtx.fillStyle = '#c084fc';
+                hCtx.fillRect(b.x + 4, b.y + 4, 32, 8);
+                hCtx.strokeStyle = '#000';
+                hCtx.lineWidth = 2;
+                hCtx.strokeRect(b.x, b.y, 40, 40);
+            }
+        }
+
+        var bob = Math.sin(simState.tick * 0.08) * 3;
+        var px = 330;
+        var py = 185 + bob;
+
+        hCtx.fillStyle = '#1e1b4b';
+        hCtx.fillRect(px + 12, py + 72, 12, 46);
+        hCtx.fillRect(px + 26, py + 72, 12, 46);
+        hCtx.strokeStyle = '#000';
+        hCtx.lineWidth = 2;
+        hCtx.strokeRect(px + 12, py + 72, 12, 46);
+        hCtx.strokeRect(px + 26, py + 72, 12, 46);
+
+        hCtx.fillStyle = '#7e22ce';
+        hCtx.fillRect(px + 10, py + 34, 30, 38);
+        hCtx.strokeRect(px + 10, py + 34, 30, 38);
+
+        hCtx.fillStyle = '#fed7aa';
+        hCtx.fillRect(px + 11, py + 6, 28, 28);
+        hCtx.strokeRect(px + 11, py + 6, 28, 28);
+
+        hCtx.fillStyle = '#a855f7';
+        hCtx.fillRect(px + 16, py + 18, 5, 4);
+        hCtx.fillRect(px + 29, py + 18, 5, 4);
+
+        if (simState.shield) {
+            var sx2 = px - 14;
+            var sy2 = py + 48;
+            hCtx.fillStyle = '#3b0764';
+            hCtx.fillRect(sx2 - 16, sy2 - 16, 32, 32);
+            hCtx.fillStyle = '#c084fc';
+            hCtx.fillRect(sx2 - 12, sy2 - 12, 24, 24);
+            hCtx.fillStyle = '#facc15';
+            hCtx.fillRect(sx2 - 7, sy2 - 3, 14, 6);
+            hCtx.strokeStyle = '#000';
+            hCtx.lineWidth = 2;
+            hCtx.strokeRect(sx2 - 16, sy2 - 16, 32, 32);
+        }
+
+        if (simState.hitbox) {
+            hCtx.strokeStyle = '#e879f9';
+            hCtx.lineWidth = 2;
+            hCtx.strokeRect(px + 2, py, 46, 120);
+            hCtx.strokeStyle = '#facc15';
+            hCtx.beginPath();
+            hCtx.moveTo(px + 2, py + 18);
+            hCtx.lineTo(px + 48, py + 18);
+            hCtx.stroke();
+        }
+
+        var cx = hudCanvas.width / 2;
+        var cy = hudCanvas.height / 2;
+        hCtx.fillStyle = '#ffffff';
+        hCtx.fillRect(cx - 8, cy - 1, 16, 2);
+        hCtx.fillRect(cx - 1, cy - 8, 2, 16);
+
+        var hx = simState.hudX;
+        var hy = simState.hudY;
+        hCtx.fillStyle = 'rgba(18, 13, 28, 0.92)';
+        hCtx.fillRect(hx, hy, 215, 115);
+        hCtx.strokeStyle = simState.dragging ? '#facc15' : '#a855f7';
+        hCtx.lineWidth = 2;
+        hCtx.strokeRect(hx, hy, 215, 115);
+
+        hCtx.fillStyle = '#c084fc';
+        hCtx.font = 'bold 13px monospace';
+        hCtx.textAlign = 'left';
+        hCtx.fillText('LACHSCLIENT 1.0.9', hx + 10, hy + 20);
+
+        hCtx.fillStyle = '#f3e8ff';
+        hCtx.font = '14px monospace';
+        var fps = 412 + (simState.tick % 9);
+        hCtx.fillText('MC 26.2 // ' + fps + ' FPS', hx + 10, hy + 42);
+        hCtx.fillText('SATURATION: ' + simState.saturation + '%', hx + 10, hy + 60);
+        hCtx.fillText('BOX: ' + (simState.hitbox ? 'ON' : 'OFF') + ' | SHIELD: ' + (simState.shield ? 'ON' : 'OFF'), hx + 10, hy + 78);
+        hCtx.fillStyle = '#facc15';
+        hCtx.fillText('[ZIEH MICH]', hx + 10, hy + 98);
+
+        requestAnimationFrame(renderHudSim);
+    }
+    requestAnimationFrame(renderHudSim);
+
+    // ==========================================
+    // 2. FLAPPY LACHS MINIGAME
+    // ==========================================
+    var fCanvas = document.getElementById('flappyCanvas');
+    var fCtx = fCanvas.getContext('2d');
+    var scoreDisplay = document.getElementById('scoreDisplay');
+    var highScoreDisplay = document.getElementById('highScoreDisplay');
+
+    var fState = 'READY';
+    var fScore = 0;
+    var fHigh = parseInt(safeGet('lachs_flappy_high', '0'), 10) || 0;
+    highScoreDisplay.textContent = fHigh;
+
+    var bird = {
+        x: 150,
+        y: 170,
+        w: 36,
+        h: 24,
+        vy: 0,
+        gravity: 0.42,
+        lift: -7.4
+    };
+
+    var obstacles = [];
+    var particles = [];
+    var fFrames = 0;
+
+    function updateUnlockBadges() {
+        if (fHigh >= 5 || fScore >= 5) document.getElementById('b5').classList.add('unlocked');
+        if (fHigh >= 10 || fScore >= 10) document.getElementById('b10').classList.add('unlocked');
+        if (fHigh >= 20 || fScore >= 20) document.getElementById('b20').classList.add('unlocked');
+    }
+    updateUnlockBadges();
+
+    function resetFlappy() {
+        bird.y = 170;
+        bird.vy = 0;
+        obstacles = [];
+        particles = [];
+        fScore = 0;
+        fFrames = 0;
+        fState = 'READY';
+        scoreDisplay.textContent = '0';
+    }
+
+    function flappyJump() {
+        if (fState === 'READY') {
+            fState = 'PLAYING';
+            bird.vy = bird.lift;
+        } else if (fState === 'PLAYING') {
+            bird.vy = bird.lift;
+            for (var i = 0; i < 6; i++) {
+                particles.push({
+                    x: bird.x,
+                    y: bird.y + bird.h / 2,
+                    vx: -2 - Math.random() * 2,
+                    vy: (Math.random() - 0.5) * 4,
+                    life: 18
+                });
+            }
+        } else if (fState === 'OVER') {
+            resetFlappy();
+            fState = 'PLAYING';
+            bird.vy = bird.lift;
+        }
+    }
+
+    document.getElementById('btnFlap').addEventListener('click', function (e) {
+        e.preventDefault();
+        flappyJump();
+    });
+    document.getElementById('btnReset').addEventListener('click', function (e) {
+        e.preventDefault();
+        resetFlappy();
+    });
+
+    fCanvas.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        flappyJump();
+    });
+
+    window.addEventListener('keydown', function (e) {
+        if (e.code === 'Space' || e.code === 'ArrowUp') {
+            if (fState === 'PLAYING' || document.activeElement === fCanvas) {
+                e.preventDefault();
+                flappyJump();
+            }
+        }
+    });
+
+    function renderFlappy() {
+        fCtx.fillStyle = '#090611';
+        fCtx.fillRect(0, 0, fCanvas.width, fCanvas.height);
+
+        fCtx.strokeStyle = 'rgba(168, 85, 247, 0.14)';
+        fCtx.lineWidth = 1;
+        var offset = (fFrames * 2) % 32;
+        for (var x = -offset; x < fCanvas.width; x += 32) {
+            fCtx.beginPath();
+            fCtx.moveTo(x, 0);
+            fCtx.lineTo(x, fCanvas.height);
+            fCtx.stroke();
+        }
+        for (var y = 0; y < fCanvas.height; y += 32) {
+            fCtx.beginPath();
+            fCtx.moveTo(0, y);
+            fCtx.lineTo(fCanvas.width, y);
+            fCtx.stroke();
+        }
+
+        if (fState === 'PLAYING') {
+            fFrames++;
+            bird.vy += bird.gravity;
+            bird.y += bird.vy;
+
+            if (fFrames % 88 === 0) {
+                var gap = 122;
+                var topH = 45 + Math.floor(Math.random() * (fCanvas.height - gap - 110));
+                obstacles.push({
+                    x: fCanvas.width,
+                    w: 56,
+                    topH: topH,
+                    botY: topH + gap,
+                    scored: false
+                });
+            }
+
+            for (var i = obstacles.length - 1; i >= 0; i--) {
+                var o = obstacles[i];
+                o.x -= 3.6;
+
+                if (!o.scored && o.x + o.w < bird.x) {
+                    o.scored = true;
+                    fScore++;
+                    scoreDisplay.textContent = fScore;
+                    if (fScore > fHigh) {
+                        fHigh = fScore;
+                        safeSet('lachs_flappy_high', fHigh);
+                        highScoreDisplay.textContent = fHigh;
+                    }
+                    updateUnlockBadges();
+                }
+
+                var hitX = bird.x + bird.w - 4 > o.x && bird.x + 4 < o.x + o.w;
+                var hitY = bird.y + 3 < o.topH || bird.y + bird.h - 3 > o.botY;
+                if (hitX && hitY) {
+                    fState = 'OVER';
+                }
+
+                if (o.x + o.w < 0) obstacles.splice(i, 1);
+            }
+
+            if (bird.y < 0 || bird.y + bird.h > fCanvas.height - 16) {
+                fState = 'OVER';
+            }
+        } else if (fState === 'READY') {
+            fFrames++;
+            bird.y = 170 + Math.sin(fFrames * 0.08) * 10;
+        }
+
+        for (var pIdx = 0; pIdx < obstacles.length; pIdx++) {
+            var ob = obstacles[pIdx];
+            fCtx.fillStyle = '#581c87';
+            fCtx.fillRect(ob.x, 0, ob.w, ob.topH);
+            fCtx.fillStyle = '#a855f7';
+            fCtx.fillRect(ob.x - 4, ob.topH - 18, ob.w + 8, 18);
+            fCtx.strokeStyle = '#000';
+            fCtx.lineWidth = 3;
+            fCtx.strokeRect(ob.x, 0, ob.w, ob.topH);
+            fCtx.strokeRect(ob.x - 4, ob.topH - 18, ob.w + 8, 18);
+
+            var botH = fCanvas.height - ob.botY - 16;
+            fCtx.fillStyle = '#581c87';
+            fCtx.fillRect(ob.x, ob.botY, ob.w, botH);
+            fCtx.fillStyle = '#a855f7';
+            fCtx.fillRect(ob.x - 4, ob.botY, ob.w + 8, 18);
+            fCtx.strokeRect(ob.x, ob.botY, ob.w, botH);
+            fCtx.strokeRect(ob.x - 4, ob.botY, ob.w + 8, 18);
+        }
+
+        fCtx.fillStyle = '#3b0764';
+        fCtx.fillRect(0, fCanvas.height - 16, fCanvas.width, 16);
+        fCtx.strokeStyle = '#000';
+        fCtx.lineWidth = 2;
+        fCtx.strokeRect(0, fCanvas.height - 16, fCanvas.width, 16);
+
+        for (var ptIdx = particles.length - 1; ptIdx >= 0; ptIdx--) {
+            var pt = particles[ptIdx];
+            pt.x += pt.vx;
+            pt.y += pt.vy;
+            pt.life--;
+            fCtx.fillStyle = '#c084fc';
+            fCtx.fillRect(pt.x, pt.y, 5, 5);
+            if (pt.life <= 0) particles.splice(ptIdx, 1);
+        }
+
+        fCtx.fillStyle = '#7e22ce';
+        fCtx.fillRect(bird.x - 8, bird.y + 4, 10, 16);
+        fCtx.strokeStyle = '#000';
+        fCtx.lineWidth = 2;
+        fCtx.strokeRect(bird.x - 8, bird.y + 4, 10, 16);
+
+        fCtx.fillStyle = fScore >= 20 ? '#facc15' : '#c084fc';
+        fCtx.fillRect(bird.x, bird.y, bird.w, bird.h);
+        fCtx.strokeRect(bird.x, bird.y, bird.w, bird.h);
+
+        fCtx.fillStyle = '#a855f7';
+        var finOffset = (fFrames % 12 < 6) ? 2 : -2;
+        fCtx.fillRect(bird.x + 10, bird.y + 10 + finOffset, 10, 6);
+
+        fCtx.fillStyle = '#fff';
+        fCtx.fillRect(bird.x + 24, bird.y + 5, 7, 7);
+        fCtx.fillStyle = '#000';
+        fCtx.fillRect(bird.x + 27, bird.y + 7, 3, 3);
+
+        if (fScore >= 10 || fHigh >= 10) {
+            fCtx.fillStyle = '#facc15';
+            fCtx.fillRect(bird.x + 8, bird.y - 9, 18, 8);
+            fCtx.fillRect(bird.x + 8, bird.y - 13, 4, 4);
+            fCtx.fillRect(bird.x + 15, bird.y - 13, 4, 4);
+            fCtx.fillRect(bird.x + 22, bird.y - 13, 4, 4);
+            fCtx.strokeRect(bird.x + 8, bird.y - 9, 18, 8);
+        }
+
+        fCtx.fillStyle = '#f3e8ff';
+        fCtx.font = 'bold 14px monospace';
+        fCtx.textAlign = 'left';
+        fCtx.fillText('LACHSCLIENT // 60 FPS | SCORE: ' + fScore, 16, 26);
+
+        if (fState === 'READY') {
+            fCtx.fillStyle = 'rgba(9, 7, 13, 0.72)';
+            fCtx.fillRect(0, 0, fCanvas.width, fCanvas.height);
+            fCtx.fillStyle = '#c084fc';
+            fCtx.font = 'bold 26px monospace';
+            fCtx.textAlign = 'center';
+            fCtx.fillText('FLAPPY LACHS v1.0.9', fCanvas.width / 2, fCanvas.height / 2 - 16);
+            fCtx.fillStyle = '#fff';
+            fCtx.font = 'bold 15px monospace';
+            fCtx.fillText('TIPPE AUF DAS FELD ODER ▲ FLAP', fCanvas.width / 2, fCanvas.height / 2 + 18);
+        } else if (fState === 'OVER') {
+            fCtx.fillStyle = 'rgba(9, 7, 13, 0.82)';
+            fCtx.fillRect(0, 0, fCanvas.width, fCanvas.height);
+            fCtx.fillStyle = '#ef4444';
+            fCtx.font = 'bold 28px monospace';
+            fCtx.textAlign = 'center';
+            fCtx.fillText('DU BIST GECRASHT!', fCanvas.width / 2, fCanvas.height / 2 - 22);
+            fCtx.fillStyle = '#facc15';
+            fCtx.font = 'bold 17px monospace';
+            fCtx.fillText('SCORE: ' + fScore + '  //  BEST: ' + fHigh, fCanvas.width / 2, fCanvas.height / 2 + 12);
+            fCtx.fillStyle = '#fff';
+            fCtx.font = 'bold 14px monospace';
+            fCtx.fillText('TIPPE ZUM ERNEUT SPIELEN', fCanvas.width / 2, fCanvas.height / 2 + 44);
+        }
+
+        requestAnimationFrame(renderFlappy);
+    }
+    requestAnimationFrame(renderFlappy);
+
+    var dlBtn = document.getElementById('mainDlBtn');
+    if (dlBtn) {
+        dlBtn.addEventListener('click', function () {
+            document.getElementById('dlStatus').textContent = '⬇ Download von Lachsclient-1.0.9.jar gestartet...';
+        });
+    }
+});
+</script>
+</body>
+</html>
