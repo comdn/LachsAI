@@ -1,10 +1,8 @@
-
-name: Deploy LachsAI Website
+name: Deploy Lachs Kleint Website
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -13,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -26,15 +24,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload website files
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: '.'
 
-      - name: Deploy website
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
         
